@@ -477,7 +477,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # todo files
-*.todo
+*.td
 
 
 # vscode
