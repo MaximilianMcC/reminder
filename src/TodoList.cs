@@ -2,6 +2,11 @@ struct TodoList
 {
 	public string Name { get; set; }
 	public List<Item> Items { get; set; }
+	public int Length
+	{
+		get { return Items.Count + 3; }
+		private set { }
+	}
 
 	public TodoList(string name)
 	{

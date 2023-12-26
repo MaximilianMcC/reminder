@@ -19,10 +19,7 @@
 		todoList.Items.Add(new Item("Become king of englan", false));
 
 		// TODO: Rename class
-		while (true)
-		{
-			Handler.Frame(todoList);
-		}
+		Handler.Frame(todoList);
 
 
 
