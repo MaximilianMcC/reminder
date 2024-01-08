@@ -10,6 +10,8 @@ Advanced TODO list program for use in the terminal.
 - [ ] Different themes (line style, color, etc)
 - [ ] Handle multiple `.td` files in same directory
 - [ ] Have a single "global" list that can be accessed anywhere
+- [ ] Multiline rendering in terminal
+- [ ] Check for if the terminal supports special characters. If not use a more limited ascii pallet.
 
 ## `.td` file structure
 Any file ending with `.td` is a todo list. A file could look like this:
