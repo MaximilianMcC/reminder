@@ -28,6 +28,7 @@ class Program
 		// Load the file
 		TodoList todoList = new TodoList(Directory.GetFiles("./", "*.td")[0]);
 		todoList.DrawList();
+		todoList.ModifyList();
 
 		//! debug
 		{

@@ -3,7 +3,7 @@ Advanced TODO list program for use in the terminal.
 
 ## TODO:
 - [x] Make a new .td file if there isn't already one in the current directory
-- [ ] Manually edit the file, then print it in console.
+- [x] Manually edit the file, then print it in console.
 - [ ] Check and uncheck items in the console
 - [ ] Sync `.td` file to a `.md` file
 - [ ] Specify where exactly the inserted `.td` file goes in the `.md` file
@@ -12,6 +12,7 @@ Advanced TODO list program for use in the terminal.
 - [ ] Have a single "global" list that can be accessed anywhere
 - [ ] Multiline rendering in terminal
 - [ ] Check for if the terminal supports special characters. If not use a more limited ascii pallet.
+- [ ] Render basic markdown in console (code blocks and stuff)
 
 ## `.td` file structure
 Any file ending with `.td` is a todo list. A file could look like this:

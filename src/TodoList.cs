@@ -1,6 +1,7 @@
 class TodoList
 {
 	public List<TodoItem> Items;
+	private int startY;
 
 	public TodoList(string filePath)
 	{
@@ -20,6 +21,9 @@ class TodoList
 
 	public void DrawList()
 	{
+		// Save the start Y position for measuring
+		startY = Console.CursorTop;
+
 		// Get all of the needed measurements for drawing the list
 		int consoleWidth = Console.WindowWidth;
 		int padding = consoleWidth / 10;
@@ -37,17 +41,52 @@ class TodoList
 
 			// Calculate the whitespace, and turn the bool to a string
 			char done = item.Done ? '✓' : ' ';
-			string whitespace = new string(' ', listWidth - item.Text.Length);
+			string whitespace = new string(' ', listWidth - item.Text.Length - 1); //? -1 is for padding on left of text
 
 			// Don't print the top if we're on the first item
 			if (i != 0) Console.WriteLine($"{paddingLeft}├───╫" + new string('─', listWidth) + '│');
 
 			// Print the item
-			Console.WriteLine($"{paddingLeft}│ {done} ║{item.Text}{whitespace}│");
+			Console.WriteLine($"{paddingLeft}│ {done} ║ {item.Text}{whitespace}│");
 		}
 
 		// Draw the bottom section
 		Console.WriteLine($"{paddingLeft}└───╨" + new string('─', listWidth) + '┘');
+	}
+
+	// Get input to modify the list in the console
+	public void ModifyList()
+	{
+		int index = 0;
+		bool editingText = false;
+
+		// Get all of the needed measurements
+		// TODO: Don't write twice
+		int consoleWidth = Console.WindowWidth;
+		int padding = consoleWidth / 10;
+
+		while (true)
+		{
+			// Get console input to work with
+			ConsoleKeyInfo input = Console.ReadKey(true);
+
+			// Check for if they want to go upwards, or downwards
+			if (input.Key == ConsoleKey.UpArrow) index--;
+			else if (input.Key == ConsoleKey.DownArrow) index++;
+
+			// Keep the index within the bounds
+			if (index > Items.Count - 1) index = 0;
+			if (index < 0) index = Items.Count - 1;
+
+			// Get the position according to the Y and what we're editing
+			int x = padding + 2;
+			if (editingText) x += 3;
+			int y = (startY + 1) + (index * 2);
+
+			// Draw the cursor/caret
+			// TODO: Recommended to us box caret. Maybe change background color otherwise.
+			Console.SetCursorPosition(x, y);
+		}
 	}
 }
 
