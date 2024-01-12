@@ -33,6 +33,7 @@ class Program
 		{
 			todoList.DrawList();
 			todoList.ModifyList();
+			todoList.SyncList();
 		}
 
 		//! debug

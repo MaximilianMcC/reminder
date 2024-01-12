@@ -3,6 +3,7 @@ using System.Diagnostics;
 class TodoList
 {
 	public List<TodoItem> Items;
+	private string filePath;
 	private int startY;
 	private bool editingText = false;
 	private int index;
@@ -10,6 +11,7 @@ class TodoList
 	public TodoList(string filePath)
 	{
 		// Open the td file and extract all values
+		this.filePath = filePath;
 		string[] lines = File.ReadAllLines(filePath);
 
 		// Loop through every item and add it to the list
@@ -26,6 +28,7 @@ class TodoList
 		startY = Console.CursorTop;
 	}
 
+	// Print the list
 	public void DrawList()
 	{
 		// Move the cursor back to the start position so we
@@ -96,15 +99,24 @@ class TodoList
 		if (index > Items.Count - 1) index = 0;
 		if (index < 0) index = Items.Count - 1;
 
-		Debug.WriteLine(index);
-
 		// Check for if they want to toggle a todo thing
 		if (input.Key == ConsoleKey.Enter && editingText == false)
 		{
 			// Get the current item, then switch its value
 			Items[index].Done = !Items[index].Done;
 		}
+	}
 
+	// Update the td file, and md file if linked
+	// TODO: Make a way to link md file
+	public void SyncList()
+	{
+		// Loop through every item and write it to the list
+		List<string> list = Items.Select(item => item.Serialize()).ToList();
+
+		// Update the list file
+		File.WriteAllLines(filePath, list);
+		Debug.WriteLine("Updated file");
 	}
 }
 
@@ -132,5 +144,11 @@ class TodoItem
 			Done = sections[0] == "1";
 			Text = sections[1].Trim();
 		}
+	}
+
+	public string Serialize()
+	{
+		char done = (Done) ? '1' : '0';
+		return $"{done};{Text}";
 	}
 }
