@@ -6,6 +6,7 @@ Advanced TODO list program for use in the terminal.
 - [x] Manually edit the file, then print it in console.
 - [ ] Check and uncheck items in the console
 - [ ] Sync `.td` file to a `.md` file
+- [ ] When `.td` file is edited then automatically sync with Git
 - [ ] Specify where exactly the inserted `.td` file goes in the `.md` file
 - [ ] Different themes (line style, color, etc)
 - [ ] Handle multiple `.td` files in same directory

@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 class Program
 {
 	public static void Main(string[] args)
@@ -25,14 +27,17 @@ class Program
 			}
 		}
 
-		// Load the file
+		// Load the file, then display the list
 		TodoList todoList = new TodoList(Directory.GetFiles("./", "*.td")[0]);
-		todoList.DrawList();
-		todoList.ModifyList();
+		while (true)
+		{
+			todoList.DrawList();
+			todoList.ModifyList();
+		}
 
 		//! debug
 		{
-			Console.WriteLine("End of program. Press any key to continue...");
+			Debug.WriteLine("End of program. Press any key to continue...");
 			Console.ReadKey();
 		}
 	}
