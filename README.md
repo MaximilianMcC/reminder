@@ -10,6 +10,7 @@ Advanced TODO list program for use in the terminal.
 - [ ] Specify where exactly the inserted `.td` file goes in the `.md` file
 - [ ] Different themes (line style, color, etc)
 - [ ] Handle multiple `.td` files in same directory
+- [ ] Make it so you can edit the text of an item in the console
 - [ ] Have a single "global" list that can be accessed anywhere
 - [ ] Multiline rendering in terminal
 - [ ] Check for if the terminal supports special characters. If not use a more limited ascii pallet.

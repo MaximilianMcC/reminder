@@ -35,11 +35,5 @@ class Program
 			todoList.ModifyList();
 			todoList.SyncList();
 		}
-
-		//! debug
-		{
-			Debug.WriteLine("End of program. Press any key to continue...");
-			Console.ReadKey();
-		}
 	}
 }

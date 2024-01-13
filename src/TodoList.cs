@@ -3,15 +3,15 @@ using System.Diagnostics;
 class TodoList
 {
 	public List<TodoItem> Items;
-	private string filePath;
+	private string tdFilePath;
 	private int startY;
-	private bool editingText = false;
+	private bool editingText;
 	private int index;
 
 	public TodoList(string filePath)
 	{
 		// Open the td file and extract all values
-		this.filePath = filePath;
+		tdFilePath = filePath;
 		string[] lines = File.ReadAllLines(filePath);
 
 		// Loop through every item and add it to the list
@@ -69,8 +69,6 @@ class TodoList
 	// Get input to modify the list in the console
 	public void ModifyList()
 	{
-		bool editingText = false;
-
 		// Get all of the needed measurements
 		// TODO: Don't write twice
 		int consoleWidth = Console.WindowWidth;
@@ -105,18 +103,54 @@ class TodoList
 			// Get the current item, then switch its value
 			Items[index].Done = !Items[index].Done;
 		}
+
+		// Check for if they want to switch between typing and not
+		if (input.Key == ConsoleKey.Tab) editingText = !editingText;
+
+		Debug.WriteLine(editingText);
 	}
 
 	// Update the td file, and md file if linked
 	// TODO: Make a way to link md file
+	// TODO: Only sync when changes have been made
 	public void SyncList()
 	{
 		// Loop through every item and write it to the list
 		List<string> list = Items.Select(item => item.Serialize()).ToList();
 
 		// Update the list file
-		File.WriteAllLines(filePath, list);
+		File.WriteAllLines(tdFilePath, list);
 		Debug.WriteLine("Updated file");
+
+		// Check for if there is a markdown file, and find then
+		// replace the todo list with the one from the td file
+		// string mdFilePath = Directory.GetFiles("./", "*.md")[0];
+		string mdFilePath = "./test.md";
+		string[] mdContents = File.ReadAllLines(mdFilePath);
+
+		// Loop through all lines and find the md list
+		bool inList = false;
+		int mdStart = 0;
+		int mdEnd = 0;
+		for (int i = 0; i < mdContents.Length; i++)
+		{
+			// Get the current line
+			string line = mdContents[i];
+
+			// Check for if we found the beginning of a md list
+			if (line.StartsWith("- [ ]") || line.StartsWith("- [x]"))
+			{
+				// Say that we're in the list
+				if (inList == false)
+				{
+					inList = true;
+					mdStart = i;
+				}
+
+				// Increase the end
+				mdEnd = i;
+			}
+		}
 	}
 }
 
