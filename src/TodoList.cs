@@ -52,7 +52,7 @@ class TodoList
 			TodoItem item = Items[i];
 
 			// Calculate the whitespace, and turn the bool to a string
-			char done = item.Done ? '✓' : ' ';
+			char done = item.Checked ? '✓' : ' ';
 			string whitespace = new string(' ', listWidth - item.Text.Length - 1); //? -1 is for padding on left of text
 
 			// Don't print the top if we're on the first item
@@ -101,7 +101,7 @@ class TodoList
 		if (input.Key == ConsoleKey.Enter && editingText == false)
 		{
 			// Get the current item, then switch its value
-			Items[index].Done = !Items[index].Done;
+			Items[index].Checked = !Items[index].Checked;
 		}
 
 		// Check for if they want to switch between typing and not
@@ -124,7 +124,7 @@ class TodoList
 
 		// Check for if there is a markdown file, and find then
 		// replace the todo list with the one from the td file
-		// string mdFilePath = Directory.GetFiles("./", "*.md")[0];
+		//! string mdFilePath = Directory.GetFiles("./", "*.md")[0];
 		string mdFilePath = "./test.md";
 		string[] mdContents = File.ReadAllLines(mdFilePath);
 
@@ -151,6 +151,35 @@ class TodoList
 				mdEnd = i;
 			}
 		}
+
+		// TODO: Use loopup table so can just do mdcontens[lastmodified] = ...
+
+		
+		// TODO: Do this another way
+		// TODO: Don't loop again
+		for (int i = mdStart; i < mdEnd; i++)
+		{
+			// TODO: Check for if a md item isn't in the todo list, or the other way around and add it
+
+			// Check for if the text content of the markdown is the 
+			// same as one of the todo list items, and if it is then
+			// update it
+			string mdText = mdContents[i].Split("] ")[1];
+			foreach (TodoItem item in Items)
+			{
+				if (item.Text != mdText) continue;
+
+				// Update the checked status for the markdown
+				char itemChecked = item.Checked ? 'x' : ' ';
+				mdContents[i] = $"- [{itemChecked}] {mdText}";
+				Debug.WriteLine("Updated checked status");
+			}
+		}
+
+		// Write the file back
+		// TODO: Don't do this way
+		File.WriteAllLines(mdFilePath, mdContents);
+
 	}
 }
 
@@ -160,7 +189,7 @@ class TodoList
 
 class TodoItem
 {
-	public bool Done { get; set; }
+	public bool Checked { get; set; }
 	public string Text { get; set; }
 
 	// Parse the line from the td file
@@ -169,20 +198,20 @@ class TodoItem
 		// Check for if its a fake one
 		if (line == "")
 		{
-			Done = false;
+			Checked = false;
 			Text = "";
 		}
 		else
 		{
 			string[] sections = line.Split(';');
-			Done = sections[0] == "1";
+			Checked = sections[0] == "1";
 			Text = sections[1].Trim();
 		}
 	}
 
 	public string Serialize()
 	{
-		char done = (Done) ? '1' : '0';
+		char done = (Checked) ? '1' : '0';
 		return $"{done};{Text}";
 	}
 }
